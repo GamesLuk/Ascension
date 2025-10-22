@@ -1,0 +1,502 @@
+# DiscordSRV Fabric - Deutsche Beispiel-Konfiguration
+# Diese Datei zeigt, wie Sie verschiedene Nachrichtentypen in separate Discord-Channels senden
+
+channels:
+  # ===========================================
+  # GLOBAL CHANNEL - Für Chat und Achievements
+  # ===========================================
+  global:
+    # Discord Channel IDs (Rechtsklick auf Channel > ID kopieren)
+    channel-ids:
+      - 000000000000000000  # ERSETZEN Sie dies mit Ihrer Global Channel ID
+
+    # Minecraft Chat -> Discord
+    minecraft-to-discord:
+      enabled: true
+      format:
+        webhook-username: "%player_prefix%%player_display_name%%player_suffix%"
+        webhook-avatar-url: "%player_avatar_url%"
+        content: "%message%"
+
+    # Discord Chat -> Minecraft
+    discord-to-minecraft:
+      enabled: true
+      format: "[<aqua>Discord</aqua>] %user_effective_name% » %message%"
+
+    # Join-Nachrichten DEAKTIVIERT (werden im status-Channel gesendet)
+    join-messages:
+      enabled: false
+
+    # Leave-Nachrichten DEAKTIVIERT (werden im status-Channel gesendet)
+    leave-messages:
+      enabled: false
+
+    # Achievement/Fortschritt-Nachrichten - Deutsche Standardwerte
+    award-messages:
+      enabled: true
+      format:
+        embeds:
+          - author:
+              name: "%player_name% hat den Fortschritt %award_display_name% erreicht!"
+              icon-url: "%player_avatar_url%"
+            description: "%award_description%"
+            color: "%award_color_hex%"
+
+    # Todesnachrichten - Deutsche Standardwerte
+    death-messages:
+      enabled: true
+      format:
+        embeds:
+          - author:
+              name: "%message%"
+              icon-url: "%player_avatar_url%"
+            color: "#FF0000"
+
+    # Server Start/Stop DEAKTIVIERT (werden im server-Channel gesendet)
+    start-message:
+      enabled: false
+
+    stop-message:
+      enabled: false
+
+  # ===========================================
+  # STATUS CHANNEL - Für Join/Leave Nachrichten
+  # ===========================================
+  status:
+    channel-ids:
+      - 000000000000000001  # ERSETZEN Sie dies mit Ihrer Status Channel ID
+
+    # Kein Chat in diesem Channel
+    minecraft-to-discord:
+      enabled: false
+
+    discord-to-minecraft:
+      enabled: false
+
+    # Join-Nachrichten AKTIVIERT - Deutsche Standardwerte
+    join-messages:
+      enabled: true
+      format:
+        embeds:
+          - author:
+              name: "%player_display_name% hat den Server betreten"
+              icon-url: "%player_avatar_url%"
+            color: "#55FF55"
+
+      # Optionale Einstellungen
+      enable-silent-permission: true  # discordsrv.silentjoin Permission
+      send-fake-join-messages: true   # Nachricht beim Unvanish
+      send-message-for-vanished-players: false
+      ignore-if-left-within-ms: 250   # Verhindert Spam bei schnellem Rejoin
+
+    # Leave-Nachrichten AKTIVIERT - Deutsche Standardwerte
+    leave-messages:
+      enabled: true
+      format:
+        embeds:
+          - author:
+              name: "%player_display_name% hat den Server verlassen"
+              icon-url: "%player_avatar_url%"
+            color: "#FF5555"
+
+      # Optionale Einstellungen
+      enable-silent-permission: true  # discordsrv.silentquit Permission
+      send-fake-messages: true        # Nachricht beim Vanish
+      send-message-for-vanished-players: false
+      ignore-if-joined-within-ms: 250
+
+    # Keine Achievements/Deaths in diesem Channel
+    award-messages:
+      enabled: false
+
+    death-messages:
+      enabled: false
+
+    start-message:
+      enabled: false
+
+    stop-message:
+      enabled: false
+
+  # ===========================================
+  # SERVER CHANNEL - Für Start/Stop Nachrichten
+  # ===========================================
+  server:
+    channel-ids:
+      - 000000000000000002  # ERSETZEN Sie dies mit Ihrer Server Channel ID
+
+    # Kein Chat in diesem Channel
+    minecraft-to-discord:
+      enabled: false
+
+    discord-to-minecraft:
+      enabled: false
+
+    # Keine Spieler-Nachrichten
+    join-messages:
+      enabled: false
+
+    leave-messages:
+      enabled: false
+
+    award-messages:
+      enabled: false
+
+    death-messages:
+      enabled: false
+
+    # Server-Start-Nachricht - Deutsche Standardwerte
+    start-message:
+      enabled: true
+      format:
+        content: ":white_check_mark: **Server wurde gestartet**"
+
+    # Server-Stop-Nachricht - Deutsche Standardwerte
+    stop-message:
+      enabled: true
+      format:
+        content: ":octagonal_sign: **Server wurde heruntergefahren**"
+
+  # ===========================================
+  # DEFAULT - Standard-Werte für alle Channels
+  # ===========================================
+  default:
+    # Diese Werte werden verwendet, wenn sie nicht in einem spezifischen Channel überschrieben werden
+    minecraft-to-discord:
+      enabled: true
+      format:
+        webhook-username: "%player_prefix%%player_display_name%%player_suffix%"
+        webhook-avatar-url: "%player_avatar_url%"
+        content: "%message%"
+      content-regex-filters: []
+      mentions:
+        users: []
+        roles: []
+
+    discord-to-minecraft:
+      enabled: true
+      format: "[<aqua>Discord</aqua>] %user_effective_name% » %message%"
+      webhook-format: "[<aqua>Discord</aqua>] %user_effective_name% » %message%"
+      attachment-format: " [<click:open_url:'%download_url%'><hover:show_text:'<gray>%file_size_mb%MB</gray>'>Anhang: %file_name%</hover></click>]"
+      reply-format: " <gray>(Antwort auf %author_effective_name%: %message_content%)</gray>"
+      content-regex-filters: []
+      ignores:
+        webhooks: false
+        bots: false
+        self: true
+      unicode-emoji-behaviour: "HIDE"
+      formatting-limit: 1000
+      delay-millis: 0
+      log-to-console: false
+      console-format: "[Discord] %user_effective_name% » %message%"
+
+    join-messages:
+      enabled: true
+      format:
+        embeds:
+          - author:
+              name: "%player_display_name% hat den Server betreten"
+              icon-url: "%player_avatar_url%"
+            color: "#55FF55"
+      first-join:
+        enabled: false
+        format:
+          embeds:
+            - author:
+                name: "%player_display_name% ist zum ersten Mal beigetreten!"
+                icon-url: "%player_avatar_url%"
+              color: "#FFD700"
+      enable-silent-permission: true
+      send-fake-join-messages: true
+      send-message-for-vanished-players: false
+      ignore-if-left-within-ms: 250
+      send-even-if-cancelled: false
+
+    leave-messages:
+      enabled: true
+      format:
+        embeds:
+          - author:
+              name: "%player_display_name% hat den Server verlassen"
+              icon-url: "%player_avatar_url%"
+            color: "#FF5555"
+      enable-silent-permission: true
+      send-fake-messages: true
+      send-message-for-vanished-players: false
+      ignore-if-joined-within-ms: 250
+      send-even-if-cancelled: false
+
+    award-messages:
+      enabled: true
+      format:
+        embeds:
+          - author:
+              name: "%player_name% hat den Fortschritt %award_display_name% erreicht!"
+              icon-url: "%player_avatar_url%"
+            description: "%award_description%"
+            color: "%award_color_hex%"
+
+    death-messages:
+      enabled: true
+      format:
+        embeds:
+          - author:
+              name: "%message%"
+              icon-url: "%player_avatar_url%"
+            color: "#FF0000"
+
+    start-message:
+      enabled: true
+      format:
+        content: ":white_check_mark: **Server wurde gestartet**"
+
+    stop-message:
+      enabled: true
+      format:
+        content: ":octagonal_sign: **Server wurde heruntergefahren**"
+
+    mirroring: {}
+    channel-locking: {}
+    role-selection: {}
+    mentions:
+      users: []
+      roles: []
+
+# ===========================================
+# CONSOLE CHANNEL - Für Server-Console-Ausgabe
+# ===========================================
+console:
+  - channel:
+      channel-id: 000000000000000003  # ERSETZEN Sie dies mit Ihrer Console Channel ID
+      use-thread: false
+      thread-name: "Console Log Woche %date:'w'%"
+      unarchive-existing: false
+      private-thread: false
+
+    threads-to-keep-in-rotation: 3
+
+    appender:
+      output-mode: "ansi"  # Optionen: off, ansi, log, diff, markdown, code_block, plain
+      line-format: "[%log_time:'HH:mm:ss'%] [%log_level%] %message%"
+      diff-exceptions: true
+      disable-link-embeds: true
+      use-editing: true
+      silent-messages: true
+      content-regex-filters: []
+      exceptions:
+        include-cause: true
+        include-stacktrace: true
+
+      # Highlighting für verschiedene Log-Level
+      level-colors:
+        ERROR: "#FF0000"     # Rot für Fehler
+        WARN: "#FFA500"      # Orange für Warnungen
+        WARNING: "#FFA500"   # Orange für Warnungen (alternative Schreibweise)
+        INFO: "#00FF00"      # Grün für Informationen
+        DEBUG: "#808080"     # Grau für Debug
+        TRACE: "#606060"     # Dunkelgrau für Trace
+
+      levels:
+        levels:
+          - "DEBUG"
+          - "TRACE"
+        blacklist: true
+
+      loggers:
+        loggers:
+          - "ExcludedLogger"
+        blacklist: true
+
+    command-execution:
+      enabled: true
+      command-prefix: "/"
+      execution-conditions: []
+      enable-slash-warning: true
+
+      filters:
+        use-permission: false
+        role-ids: []
+        blacklist: false
+
+        user-ids: []
+
+# ===========================================
+# BOT PRÄSENZ / AKTIVITÄT
+# ===========================================
+presence-updater:
+  # Deaktiviert um Placeholder-Fehler beim Start zu vermeiden
+  enabled: false
+  updater-rate-in-seconds: 90
+
+  # Standard-Aktivität (rotiert durch diese Liste)
+  presences:
+    - status: "online"  # Optionen: online, idle, do_not_disturb, invisible
+      activity:
+        type: "PLAYING"
+        message: "Minecraft"
+
+    # Sie können mehrere Aktivitäten hinzufügen, die rotieren:
+    # - status: "online"
+    #   activity:
+    #     type: "WATCHING"
+    #     message: "den Server"
+
+  # Aktivität während Server-Start
+  use-starting-presence: true
+  starting-presence:
+    status: "do_not_disturb"
+    activity:
+      type: "PLAYING"
+      message: "Startet..."
+
+  # Aktivität während Server-Stop
+  use-stopping-presence: true
+  stopping-presence:
+    status: "idle"
+    activity:
+      type: "PLAYING"
+      message: "Wird heruntergefahren..."
+
+# ===========================================
+# DISCORD INVITE LINK
+# ===========================================
+invite:
+  # Der Einladungslink für den %discord_invite% Platzhalter
+  invite-url: "https://discord.gg/IhrServerCode"
+  discord-invite-link: "https://discord.gg/IhrServerCode"
+
+  # Server ID für automatische Invite-Erstellung
+  server-id: ""
+
+  # Versuche Vanity URL zu verwenden
+  attempt-to-use-vanity-url: true
+
+  # Automatische Invite-Erstellung
+  auto-create-invite: true
+  attempt-to-create-from:
+    - "rules-channel"
+    - "default-channel"
+
+# ===========================================
+# KANAL-BESCHREIBUNG UPDATER
+# ===========================================
+channel-updater:
+  # Wie oft die Channel-Beschreibungen aktualisiert werden (in Sekunden)
+  rate-in-seconds: 300
+
+  # Voice Channel Updater (z.B. für Spielerzahl im Channel-Namen)
+  voice-channels: []
+
+  # Text Channel Updater (für Channel-Beschreibungen)
+  text-channels: []
+
+  chat:
+    topic-format: "%playercount%/%playermax% Spieler online | %totalplayers% Spieler gesamt | Server online seit %uptimemins% Minuten"
+    at-shutdown-format: "Server ist offline | %totalplayers% Spieler gesamt"
+
+  console:
+    topic-format: "TPS: %tps% | RAM: %usedmemorygb%GB benutzt/%maxmemorygb%GB max | %serverversion%"
+    at-shutdown-format: "Server ist offline | %serverversion%"
+
+# ===========================================
+# ACCOUNT LINKING (Optional)
+# ===========================================
+linking:
+  # Wenn true, müssen Spieler ihre Discord-Accounts verknüpfen
+  required: false
+
+  # Deutsche Nachrichten für Account-Verknüpfung
+  messages:
+    code-generated: "Dein Verknüpfungscode ist %code%. Schreibe dem Bot eine private Nachricht mit diesem Code."
+    minecraft-account-linked: "&bDeine UUID wurde mit dem Discord-Nutzer %username% (%id%) verknüpft"
+    discord-account-linked: "Dein Discord-Account wurde mit %name% (%uuid%) verknüpft"
+    unknown-code: "Diesen Code kenne ich nicht, bitte versuche es erneut."
+    invalid-code: "Bist du sicher, dass dies dein Code ist? Verknüpfungscodes bestehen aus 4 Zahlen."
+
+# ===========================================
+# WEITERE EINSTELLUNGEN
+# ===========================================
+# Automatische Konfigurations-Upgrades
+automatic-configuration-upgrade: true
+
+# Avatar Provider für Spieler-Avatare
+avatar-provider:
+  provider: "crafatar"
+  services:
+    crafatar: "https://crafatar.com/avatars/%uuid%.png?size=128&overlay=true"
+  default-url: "https://crafatar.com/avatars/%uuid%.png?size=128&overlay=true"
+
+# Debug-Modus (nur für Fehlersuche)
+debug:
+  hide-sensitive-information: true
+  log-to-console: false
+  additional-levels: []
+  uncaught-errors:
+    print-to-console: true
+    send-to-notification-channel: false
+  uncaught-rejections:
+    print-to-console: true
+    send-to-notification-channel: false
+
+# ===========================================
+# ACCOUNT VERKNÜPFUNG
+# ===========================================
+linked-accounts: {}
+
+required-linking:
+  enabled: false
+
+rewards: []
+
+# ===========================================
+# SYNCHRONISIERUNG
+# ===========================================
+group-sync: []
+
+nickname-sync:
+  enabled: false
+
+ban-sync:
+  enabled: false
+
+# ===========================================
+# ROLLEN
+# ===========================================
+linked-role:
+  enabled: false
+
+online-role:
+  enabled: false
+
+# ===========================================
+# BEFEHLE
+# ===========================================
+game-command:
+  enabled: true
+
+discord-command:
+  enabled: true
+
+execute-command:
+  enabled: true
+
+player-list:
+  enabled: true
+
+custom-commands: []
+
+# ===========================================
+# NACHRICHTEN
+# ===========================================
+messages: {}
+
+# ===========================================
+# INTEGRATIONEN
+# ===========================================
+integrations: {}
+
+# ===========================================
+# MEMBER CACHING
+# ===========================================
+member-caching:
+  enabled: true
