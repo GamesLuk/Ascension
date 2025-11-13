@@ -95,7 +95,7 @@ dependencies {
     }
     runtimeDownloadApi(libs.kyori.ansi)
     runtimeDownloadApi(libs.mcdiscordreserializer)
-    runtimeDownloadApi(libs.enhancedlegacytext)
+    // runtimeDownloadApi(libs.enhancedlegacytext) // Temporarily disabled due to missing SNAPSHOT dependency
 
     // Database
     hikariOnly(libs.hikaricp)

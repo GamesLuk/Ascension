@@ -28,6 +28,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.tree.CommandNode;
 import com.mojang.brigadier.tree.RootCommandNode;
 import net.minecraft.server.command.ServerCommandSource;
+import net.kyori.adventure.audience.Audience;
 
 import java.util.ArrayList;
 import java.util.Collections;
