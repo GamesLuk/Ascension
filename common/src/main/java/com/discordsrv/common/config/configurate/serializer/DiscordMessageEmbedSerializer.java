@@ -68,7 +68,7 @@ public class DiscordMessageEmbedSerializer implements TypeSerializer<DiscordMess
         builder.setAuthor(
                 author.node(map("Name")).getString(),
                 author.node(map("Url")).getString(),
-                author.node(map("ImageUrl")).getString());
+                author.node(map("ImageUrl")).getString(author.node(map("IconUrl")).getString("")));
 
         ConfigurationNode title = node.node(map("Title"));
         builder.setTitle(

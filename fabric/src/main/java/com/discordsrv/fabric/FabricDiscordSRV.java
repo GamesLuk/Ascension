@@ -52,6 +52,7 @@ import java.net.URL;
 import java.security.CodeSource;
 import java.util.UUID;
 import java.util.jar.JarFile;
+import net.kyori.adventure.key.Key;
 
 public class FabricDiscordSRV extends AbstractDiscordSRV<DiscordSRVFabricBootstrap, FabricConfig, ConnectionConfig, MessagesConfig> {
 

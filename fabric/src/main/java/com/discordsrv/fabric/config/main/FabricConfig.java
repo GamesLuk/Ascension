@@ -25,6 +25,7 @@ import com.discordsrv.common.config.main.channels.base.BaseChannelConfig;
 import com.discordsrv.common.config.main.channels.base.server.ServerBaseChannelConfig;
 import com.discordsrv.common.config.main.channels.base.server.ServerChannelConfig;
 import com.discordsrv.common.config.main.linking.ServerRequiredLinkingConfig;
+import net.dv8tion.jda.api.OnlineStatus;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Comment;
 
@@ -41,12 +42,33 @@ public class FabricConfig extends MainConfig {
         return new ServerChannelConfig();
     }
 
-    @Comment("Options for requiring players to link (and optionally meet other requirements) before being able to play")
+    @Comment("Optionen um zu verlangen, dass Spieler ihre Accounts verknüpfen müssen, bevor sie spielen können")
     @Order(410)
     public ServerRequiredLinkingConfig requiredLinking = new ServerRequiredLinkingConfig();
 
     @Override
     public PresenceUpdaterConfig defaultPresenceUpdater() {
-        return new PresenceUpdaterConfig.Server();
+        PresenceUpdaterConfig.Server config = new PresenceUpdaterConfig.Server();
+
+        // Deutsche Standard-Präsenz
+        config.presences.clear();
+        config.presences.add(new PresenceUpdaterConfig.Presence(
+                OnlineStatus.ONLINE,
+                "spiele Minecraft mit %playercount% Spielern"
+        ));
+
+        // Deutsche Start-Präsenz
+        config.startingPresence = new PresenceUpdaterConfig.Presence(
+                OnlineStatus.DO_NOT_DISTURB,
+                "Starte..."
+        );
+
+        // Deutsche Stop-Präsenz
+        config.stoppingPresence = new PresenceUpdaterConfig.Presence(
+                OnlineStatus.IDLE,
+                "Wird heruntergefahren..."
+        );
+
+        return config;
     }
 }

@@ -177,8 +177,4 @@ dependencies {
     // Integrations
     modCompileOnly("eu.pb4:placeholder-api:${project.property("deps.text_placeholder_api")}")
 
-    // DependencyDownload
-    shadow(libs.mcdependencydownload.fabric) {
-        exclude module: 'fabric-loader'
-    }
 }
