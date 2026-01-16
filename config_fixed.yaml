@@ -1,0 +1,541 @@
+# Welcome to the DiscordSRV configuration file
+# FIXED VERSION - Icons sollten jetzt funktionieren!
+
+automatic-configuration-upgrade: true
+
+channels:
+    global:
+        channel-ids:
+        - 1430307114663809156
+        threads:
+        -   channel-id: 0
+            thread-name: "Minecraft Server chat bridge"
+            unarchive-existing: true
+            private-thread: false
+        minecraft-to-discord:
+            enabled: true
+            format:
+                content: "%player_prefix% %player_display_name% » %message%"
+        discord-to-minecraft:
+            enabled: true
+            format: "[&bDiscord&r] %user_effective_name% » %message%"
+            log-to-console: true
+        join-messages:
+            enabled: false
+        leave-messages:
+            enabled: false
+        award-messages:
+            enabled: true
+            format:
+                webhook-username: "Minecraft Server"
+                webhook-avatar-url: ""
+                embeds:
+                -   color: "%award_color_hex%"
+                    author:
+                        name: "%player_name% hat den Fortschritt %award_display_name% erreicht!"
+                        icon_url: "%player_avatar_url%"
+                    description: "%award_description%"
+        death-messages:
+            enabled: true
+            format:
+                webhook-username: "Minecraft Server"
+                webhook-avatar-url: ""
+                embeds:
+                -   color: "#ff0000"
+                    author:
+                        name: "%message%"
+                        icon_url: "%player_avatar_url%"
+        start-message:
+            enabled: false
+        stop-message:
+            enabled: false
+
+    status:
+        channel-ids:
+        - 1430307316049121290
+        threads:
+        -   channel-id: 0
+            thread-name: "Minecraft Server chat bridge"
+            unarchive-existing: true
+            private-thread: false
+        minecraft-to-discord:
+            enabled: false
+        discord-to-minecraft:
+            enabled: false
+            log-to-console: true
+        join-messages:
+            enabled: true
+            format:
+                webhook-username: "Citybuild-Bot"
+                webhook-avatar-url: ""
+                embeds:
+                -   color: "#00FF00"
+                    author:
+                        name: "%player_display_name% hat den Server betreten"
+                        icon_url: "%player_avatar_url%"
+            enable-silent-permission: false
+            send-fake-join-messages: true
+            send-message-for-vanished-players: false
+            ignore-if-left-within-ms: 250
+            send-even-if-cancelled: false
+        leave-messages:
+            enabled: true
+            format:
+                webhook-username: "Citybuild-Bot"
+                webhook-avatar-url: ""
+                embeds:
+                -   color: "#ff5555"
+                    author:
+                        name: "%player_display_name% hat den Server verlassen"
+                        icon_url: "%player_avatar_url%"
+            enable-silent-permission: false
+            send-fake-messages: true
+            send-message-for-vanished-players: false
+            ignore-if-joined-within-ms: 250
+            send-even-if-cancelled: false
+        award-messages:
+            enabled: false
+        death-messages:
+            enabled: false
+        start-message:
+            enabled: false
+        stop-message:
+            enabled: false
+
+    server:
+        channel-ids:
+        - 1430307258289487952
+        threads:
+        -   channel-id: 0
+            thread-name: "Minecraft Server chat bridge"
+            unarchive-existing: true
+            private-thread: false
+        minecraft-to-discord:
+            enabled: false
+        discord-to-minecraft:
+            enabled: false
+            log-to-console: true
+        join-messages:
+            enabled: false
+        leave-messages:
+            enabled: false
+        award-messages:
+            enabled: false
+        death-messages:
+            enabled: false
+        start-message:
+            enabled: true
+            format:
+                content: ":white_check_mark: **Server wurde gestartet**"
+        stop-message:
+            enabled: true
+            format:
+                content: ":octagonal_sign: **Server wurde heruntergefahren**"
+
+    default:
+        minecraft-to-discord:
+            enabled: true
+            format:
+                content: "%message%"
+            content-regex-filters: {}
+            mentions:
+                render-mentions-in-game: true
+                suggest-mentions-completions-in-game: true
+                roles: true
+                channels: true
+                users: true
+                uncached-users: false
+                everyone: false
+        discord-to-minecraft:
+            enabled: true
+            format: "[<aqua>Discord</aqua>] %user_effective_name% » %message%"
+            webhook-format: "[<aqua>Discord</aqua>] %user_effective_name% » %message%"
+            attachment-format: " [<click:open_url:'%download_url%'><hover:show_text:'<gray>%file_size_mb%MB</gray>'>Anhang: %file_name%</hover></click>]"
+            reply-format: " <gray>(Antwort auf %author_effective_name%: %message_content%)</gray>"
+            content-regex-filters: {}
+            ignores:
+                user-bot-and-webhook-ids:
+                    ids: []
+                    whitelist: false
+                role-ids:
+                    ids: []
+                    whitelist: false
+                bots: false
+                webhooks: false
+            unicode-emoji-behaviour: hide
+            formatting-limit:
+                role-and-user-ids: []
+                blacklist: true
+            delay-millis: 0
+            log-to-console: false
+            console-format: "[Discord] %user_effective_name% » %message%"
+        join-messages:
+            enabled: true
+            format:
+                webhook-username: "Minecraft Server"
+                webhook-avatar-url: ""
+                embeds:
+                -   color: "#55ff55"
+                    author:
+                        name: "%player_display_name% hat den Server betreten"
+                        icon_url: "%player_avatar_url%"
+            first-join:
+                enabled: false
+                format:
+                    webhook-username: "Minecraft Server"
+                    webhook-avatar-url: ""
+                    embeds:
+                    -   color: "#ffd700"
+                        author:
+                            name: "%player_display_name% ist zum ersten Mal beigetreten!"
+                            icon_url: "%player_avatar_url%"
+            enable-silent-permission: true
+            send-fake-join-messages: true
+            send-message-for-vanished-players: false
+            ignore-if-left-within-ms: 250
+            send-even-if-cancelled: false
+        leave-messages:
+            enabled: true
+            format:
+                webhook-username: "Minecraft Server"
+                webhook-avatar-url: ""
+                embeds:
+                -   color: "#ff5555"
+                    author:
+                        name: "%player_display_name% hat den Server verlassen"
+                        icon_url: "%player_avatar_url%"
+            enable-silent-permission: true
+            send-fake-messages: true
+            send-message-for-vanished-players: false
+            ignore-if-joined-within-ms: 250
+            send-even-if-cancelled: false
+        award-messages:
+            enabled: true
+            format:
+                webhook-username: "Minecraft Server"
+                webhook-avatar-url: ""
+                embeds:
+                -   color: "%award_color_hex%"
+                    author:
+                        name: "%player_name% hat den Fortschritt %award_display_name% erreicht!"
+                        icon_url: "%player_avatar_url%"
+                    description: "%award_description%"
+        death-messages:
+            enabled: true
+            format:
+                webhook-username: "Minecraft Server"
+                webhook-avatar-url: ""
+                embeds:
+                -   color: "#ff0000"
+                    author:
+                        name: "%message%"
+                        icon_url: "%player_avatar_url%"
+        start-message:
+            enabled: true
+            format:
+                content: ":white_check_mark: **Server wurde gestartet**"
+        stop-message:
+            enabled: true
+            format:
+                content: ":octagonal_sign: **Server wurde heruntergefahren**"
+        mirroring:
+            enabled: true
+            ignores:
+                user-bot-and-webhook-ids:
+                    ids: []
+                    whitelist: false
+                role-ids:
+                    ids: []
+                    whitelist: false
+                bots: false
+                webhooks: true
+            username-format: "%user_effective_name% 🔃"
+            reply-format: "[In reply to %user_effective_name%](%message_jump_url%)\n%message%"
+            attachments:
+                maximum-size-kb: -1
+                embed-attachments: true
+        channel-locking:
+            channels:
+                everyone: false
+                role-ids: []
+                read: false
+                write: true
+                add-reactions: true
+            threads:
+                archive: false
+                lock: true
+        role-selection:
+            ids: []
+            blacklist: true
+        mentions:
+            role:
+                format: "%role_color%@%role_name%"
+                unknown-format: "[color:#5865F2]@deleted-role"
+            channel:
+                format: "[hover:show_text:Click to go to channel][click:open_url:%channel_jump_url%][color:#5865F2]#%channel_name%"
+                unknown-format: "[color:#5865F2]#Unknown"
+            user:
+                format-global: "[hover:show_text:Username: @%user_tag% [italics:on][color:gray](Shift+Click to mention)[color][italics:off]][insert:@%user_tag%][color:#5865F2]@%user_effective_name%"
+                format: "[hover:show_text:Username: @%user_tag% [italics:on][color:gray](Shift+Click to mention)[color][italics:off]\nRoles: %user_selected_roles:', '|text:'[color:gray][italics:on]None[color][italics]'%][insert:@%user_tag%][color:#5865F2]@%user_effective_name%"
+                unknown-format: "[color:#5865F2]@Unknown user"
+            message-url: "[hover:show_text:Click to go to message][click:open_url:%jump_url%][color:#5865F2]#%channel_name% > ..."
+            custom-emoji-behaviour: blank
+
+presence-updater:
+    use-starting-presence: false
+    starting-presence:
+        status: do_not_disturb
+        activity: "playing Minecraft"
+    use-stopping-presence: false
+    stopping-presence:
+        status: idle
+        activity: "playing Minecraft"
+    updater-rate-in-seconds: 90
+    presences:
+    -   status: online
+        activity: "playing Minecraft"
+
+invite:
+    invite-url: "https://discord.gg/IhrServerCode"
+    server-id: 0
+    attempt-to-use-vanity-url: true
+    auto-create-invite: true
+
+linked-accounts:
+    enabled: true
+    provider: auto
+
+required-linking:
+    enabled: false
+    action: kick
+    whitelisted-players-can-bypass: true
+    bypass-uuids:
+    - "6c983d46-0631-48b8-9baf-5e33eb5ffec4"
+    additional-requirements: []
+
+rewards:
+    linking-rewards:
+    -   type: is_linked
+        reward-id: "first-link"
+        grant-type: once_per_both
+        needs-online: false
+        console-commands-to-run: []
+    boosting-rewards:
+    -   type: is_boosting
+        server-id: 0
+        reward-id: "first-boost"
+        grant-type: once_per_both
+        needs-online: false
+        console-commands-to-run: []
+
+console:
+-   channel:
+        channel-id: 1430307225074798642
+        use-thread: false
+        thread-name: "Console Log Woche %date:'w'%"
+        unarchive-existing: false
+        private-thread: false
+    threads-to-keep-in-rotation: 3
+    appender:
+        output-mode: ansi
+        line-format: "[%log_time:'HH:mm:ss'%] [%log_level%] %message%"
+        diff-exceptions: true
+        disable-link-embeds: true
+        use-editing: true
+        silent-messages: true
+        content-regex-filters: {}
+        levels:
+            levels:
+            - "DEBUG"
+            - "TRACE"
+            blacklist: true
+        loggers:
+            loggers:
+            - "ExcludedLogger"
+            blacklist: true
+        exceptions:
+            filter-out-duplicates-minutes: 5
+            also-block-messages: true
+    command-execution:
+        enabled: true
+        execution-conditions: []
+        enable-slash-warning: true
+
+group-sync:
+    sets:
+    -   direction: bidirectional
+        contexts: {}
+        include-inherited: false
+        timer:
+            side: minecraft
+            cycle-time: 5
+        tie-breakers:
+            join: minecraft
+            link: minecraft
+            resync-command: minecraft
+        unlink-behaviour: remove_discord
+        pairs:
+        -   group-name: ""
+            role-id: 0
+
+nickname-sync:
+    direction: minecraft_to_discord
+    server-id: 0
+    nickname-regex-filters: {}
+    timer:
+        side: disabled
+        cycle-time: 5
+    tie-breakers:
+        join: minecraft
+        link: minecraft
+        resync-command: minecraft
+    unlink-behaviour: remove_discord
+
+ban-sync:
+    server-id: 0
+    direction: bidirectional
+    banned-role-id: 0
+    minecraft-to-discord:
+        action: ban
+        ban-reason-format: "Banned by %punishment_punisher% in Minecraft for %punishment_reason%, ends: %punishment_until:'YYYY-MM-dd HH:mm:ss zzz'|text:'Never'%"
+        unban-reason-format: "Unbanned in Minecraft"
+        message-hours-to-delete: 0
+    discord-to-minecraft:
+        trigger: ban
+        ban-reason-format: "Banned on Discord: %punishment_reason%"
+        punisher-format: "%user_color%@%user_name%"
+        kick-reason: "&cYou have been banned on Discord for &f%punishment_reason% &cby &f%punishment_punisher%"
+    timer:
+        side: minecraft
+        cycle-time: 5
+    tie-breakers:
+        join: minecraft
+        link: minecraft
+        resync-command: minecraft
+    unlink-behaviour: do_nothing
+
+linked-role:
+    role-ids: []
+
+online-role:
+    role-id: 0
+    delay-adding-role-by-ms: 2000
+    give-role-to-vanished-players: false
+
+game-command:
+    use-discord-command: true
+    use-link-alias: false
+    discord-format: "[click:open_url:%discord_invite%][color:aqua][bold:on]Click here [color][bold][color:green]to join our Discord server!"
+
+discord-command:
+    management-command-server-id: 0
+    enable-management-command-globally: false
+    user-command-alias: "minecraft"
+    user-command-server-id: 0
+    enable-user-command-globally: true
+
+execute-command:
+    enabled: true
+    ephemeral: true
+    output-mode: markdown
+    execution-conditions:
+    -   role-and-user-ids: []
+        blacklist: false
+        commands:
+        - "say"
+        - "/gamemode(?: (?:survival|spectator)(?: .+)?)?/"
+    suggest: true
+    filter-suggestions: true
+
+player-list:
+    no-players-format: "No players online"
+    sort-by: "%player_name%"
+    group-players: false
+    group-by: "%player_primary_group%"
+    grouping-header: "%group%\n"
+    group-separator: "\n\n"
+    player-format: "%player_team_display_name%"
+    player-separator: ", "
+    command:
+        output-mode: ansi
+        header: "%playerlist_count% players online"
+        footer: ""
+        previous-label: "⬅"
+        next-label: "➡"
+
+custom-commands:
+-   enabled: false
+    command: "ip"
+    description: "Get the Minecraft server ip"
+    ephemeral: true
+    options: []
+    server-id: 0
+    constraints:
+    -   role-and-user-ids: []
+        blacklist: true
+    console-commands-to-run: []
+    response:
+        content: "`yourserveripchange.me`"
+-   enabled: false
+    command: "hello"
+    description: "Greet a user"
+    ephemeral: false
+    options:
+    -   type: user
+        name: "target_user"
+        description: "The user to greet"
+        required: true
+    server-id: 0
+    constraints:
+    -   role-and-user-ids: []
+        blacklist: true
+    console-commands-to-run: []
+    response:
+        embeds:
+        -   description: "Hello %option_target_user_name%"
+
+channel-updater:
+    voice-channels:
+    -   channel-ids: []
+        name-format: ""
+        shutdown-name-format: ""
+        time-minutes: 10
+    text-channels:
+    -   channel-ids: []
+        name-format: ""
+        shutdown-name-format: ""
+        topic-format: ""
+        shutdown-topic-format: ""
+        time-minutes: 10
+
+avatar-provider:
+  provider: "url"
+  services:
+    texture-template: ""
+    online-uuid-template: ""
+    floodgate-template: ""
+    offline-template: ""
+  default-url: "https://crafatar.com/avatars/%player_uuid%.png?size=128&overlay=true"
+
+messages:
+    default-language: "en"
+    multiple: false
+    load-all-defaults: true
+
+integrations:
+    disabled-integrations: []
+    vanish-tracking: auto
+    vanish-tracking-timer-seconds: 15
+
+member-caching:
+    enabled: true
+    chunk: true
+    lru: 5000
+    chunking-server-filter:
+        blacklist: true
+        ids: []
+
+debug:
+    log-to-console: false
+    additional-levels: {}
+

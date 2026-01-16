@@ -35,6 +35,7 @@ sourceSets {
         }
         resources {
             srcDirs("versions/${stonecutter.current.project}/src/main/resources")
+            srcDir(layout.buildDirectory.dir("generated-resources/runtimeDownloadOnly"))
         }
     }
 }
@@ -61,6 +62,11 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadow]
     mergeServiceFiles()
+    dependsOn generateRuntimeDownloadResourceForRuntimeDownloadOnly
+}
+
+jar {
+    dependsOn generateRuntimeDownloadResourceForRuntimeDownloadOnly
 }
 
 stonecutter {
@@ -69,6 +75,30 @@ stonecutter {
     dependency("java", project.property("deps.java"))
 
     swap("dependencies_file", "\"dependencies/runtimeDownload-${stonecutter.current.version}.txt\";")
+}
+
+generateRuntimeDownloadResourceForRuntimeDownloadOnly {
+    file = 'dependencies/runtimeDownload-' + stonecutter.current.version + '.txt'
+
+    // Für Version-Aliase (z.B. 1.21.9 -> 1.21.10) erstelle eine zusätzliche Kopie
+    doLast {
+        if (stonecutter.current.version == "1.21.9" && stonecutter.current.project == "1.21.10") {
+            def sourceFile = project.file("build/generated-resources/runtimeDownloadOnly/dependencies/runtimeDownload-1.21.9.txt")
+            def targetFile = project.file("build/generated-resources/runtimeDownloadOnly/dependencies/runtimeDownload-1.21.10.txt")
+            if (sourceFile.exists()) {
+                targetFile.parentFile.mkdirs()
+                targetFile.text = sourceFile.text
+            }
+        } else if (stonecutter.current.project == "1.21.10") {
+            // Falls stonecutter.current.version bereits 1.21.10 ist, erstelle eine 1.21.9-Kopie
+            def sourceFile = project.file("build/generated-resources/runtimeDownloadOnly/dependencies/runtimeDownload-1.21.10.txt")
+            def targetFile = project.file("build/generated-resources/runtimeDownloadOnly/dependencies/runtimeDownload-1.21.9.txt")
+            if (sourceFile.exists()) {
+                targetFile.parentFile.mkdirs()
+                targetFile.text = sourceFile.text
+            }
+        }
+    }
 }
 
 tasks.register('copyRemappedJar', Copy) {
@@ -86,6 +116,8 @@ remapJar {
         archiveBaseName = "DiscordSRV-Fabric-${stonecutter.current.project}-1.21.8"
     } else if (stonecutter.current.version == "1.21.9") {
         archiveBaseName = "DiscordSRV-Fabric-${stonecutter.current.project}-1.21.10"
+    } else if (stonecutter.current.version == "1.21.10") {
+        archiveBaseName = "DiscordSRV-Fabric-${stonecutter.current.project}"
     }
     archiveClassifier = jar.archiveClassifier
 
@@ -177,4 +209,14 @@ dependencies {
     // Integrations
     modCompileOnly("eu.pb4:placeholder-api:${project.property("deps.text_placeholder_api")}")
 
+<<<<<<< Updated upstream
+=======
+    // Servers Link (optional) - für Transfer-Detection
+    modCompileOnly files('C:/Users/lukas/Documents/Programming_Programs/servers-link/build/libs/servers-link-2.4.0.jar')
+
+    // DependencyDownload
+    shadow(libs.mcdependencydownload.fabric) {
+        exclude module: 'fabric-loader'
+    }
+>>>>>>> Stashed changes
 }
